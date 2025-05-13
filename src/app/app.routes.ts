@@ -1,7 +1,6 @@
-
 import { Routes } from '@angular/router';
 import {DashboardComponent} from "./public/pages/dashboard/dashboard.component";
-import {ReservationComponent} from "./public/pages/reservation/reservation.component";
+import {ReservationsComponent} from "./public/pages/reservations/reservations.component";
 import {CalendarComponent} from "./public/pages/calendar/calendar.component";
 import {RoomListComponent} from "./public/pages/room-list/room-list.component";
 import {AlertsComponent} from "./public/pages/alerts/alerts.component";
@@ -11,7 +10,7 @@ import {PageNotFoundComponent} from "./public/pages/page-not-found/page-not-foun
 
 export const routes: Routes = [
   { path: 'dashboard',             component: DashboardComponent },
-  { path: 'reservation',            component: ReservationComponent },
+  { path: 'reservations',            component: ReservationsComponent },
   { path: 'calendar',            component: CalendarComponent },
   { path: 'room-list',            component: RoomListComponent },
   { path: 'alerts',            component: AlertsComponent },
