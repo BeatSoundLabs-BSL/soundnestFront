@@ -4,9 +4,10 @@ export const environment = {
   // Server Base URL for REST API
   serverBaseUrl: 'http://localhost:3000/api/v1',
 
+  usersEndpointPath: '/users',
   reservationsEndpointPath: '/reservations',
   calendarEndpointPath: '/calendar',
-  roomlistEndpointPath: '/roomlist',
+  roomlistEndpointPath: '/rooms',
   alertsEndpointPath: '/alerts',
   historyEndpointPath: '/history',
   settingsEndpointPath: '/settings',

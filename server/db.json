@@ -1,12 +1,7 @@
 {
   "users": [],
   "reservations": [],
-  "rooms": [
-    {
-    "id": 1,
-    "title": "Rooms",
-    "description": "Sample Room"
-  }],
+  "rooms": [],
   "reports": [],
   "usage-log": [],
   "history": [] ,

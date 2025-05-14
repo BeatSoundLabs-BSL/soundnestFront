@@ -15,19 +15,18 @@ import {NgIf} from '@angular/common';
   imports: [
     PaginationComponent,
     TableComponent,
-    FormsModule,
-    NgIf
+    FormsModule
   ],
   styleUrls: ['./owner-room-table.component.css']
 })
-export class RoomListComponent implements OnInit {
+export class ownerRoomsTable implements OnInit {
   @ViewChild('roomActions') roomActionsTemplate!: TemplateRef<any>;
 
   columns = [
     { field: 'id', header: 'ID', width: '70px', sortable: true },
     { field: 'name', header: 'Nombre', sortable: true },
     { field: 'capacity', header: 'Capacidad', sortable: true, width: '100px' },
-    { field: 'pricePerHour', header: 'Precio/Hora', sortable: true, width: '120px' },
+    { field: 'price', header: 'Precio', sortable: true, width: '120px' },
     { field: 'isAvailable', header: 'Disponible', sortable: true, width: '100px' }
   ];
 
