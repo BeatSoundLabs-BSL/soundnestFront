@@ -5,6 +5,9 @@ import { AppComponent } from './app/app.component';
 import {RoomListComponent} from "./app/soundnest/components/owner-room-table/owner-room-table.component";
 import {MockRoomService} from './app/public/services/mock-room.service';
 import {RoomService} from './app/soundnest/services/room.service';
+import {appConfig} from './app/app.config';
+import {importProvidersFrom} from '@angular/core';
+import {TranslateModule} from '@ngx-translate/core';
 
 // Define routes including the test page
 const routes = [
@@ -17,6 +20,8 @@ bootstrapApplication(AppComponent, {
   providers: [
     //provideHttpClient(),
     { provide: RoomService, useClass: MockRoomService },
+    appConfig.providers,
+    importProvidersFrom(TranslateModule.forRoot())
     //provideRouter(routes),
     // Add other providers as needed
   ]

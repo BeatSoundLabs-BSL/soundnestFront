@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import {DashboardComponent} from "./public/pages/dashboard/dashboard.component";
 import {ReservationsComponent} from "./public/pages/reservations/reservations.component";
 import {CalendarComponent} from "./public/pages/calendar/calendar.component";
-import {RoomListComponent} from "./public/pages/room-list/room-list.component";
+import {RoomListComponent} from "./soundnest/components/owner-room-table/owner-room-table.component";
 import {AlertsComponent} from "./public/pages/alerts/alerts.component";
 import {HistoryComponent} from "./public/pages/history/history.component";
 import {SettingsComponent} from "./public/pages/settings/settings.component";

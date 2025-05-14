@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, ContentChild, TemplateRef } from '@angular/core';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf, NgTemplateOutlet} from '@angular/common';
 
 @Component({
   selector: 'app-table',
@@ -7,7 +7,8 @@ import {NgClass, NgForOf, NgIf} from '@angular/common';
   imports: [
     NgClass,
     NgIf,
-    NgForOf
+    NgForOf,
+    NgTemplateOutlet
   ],
   styleUrls: ['./table.component.css']
 })
