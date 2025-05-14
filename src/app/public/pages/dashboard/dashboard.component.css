@@ -1,0 +1,17 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh; /* Takes full viewport height */
+}
+
+.sidebar {
+  width: 250px; /* Fixed width for sidebar */
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  /* Add any other sidebar styling you need */
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}

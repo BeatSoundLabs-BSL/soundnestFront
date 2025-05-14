@@ -3,11 +3,13 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/user-auth.service';
+import {LanguageSwitcherComponent} from '../../../public/components/language-switcher/language-switcher.component';
+import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, LanguageSwitcherComponent, MatToolbar, MatToolbarRow],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

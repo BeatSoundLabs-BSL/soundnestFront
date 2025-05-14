@@ -7,6 +7,7 @@ import {PaginationComponent} from '../../../shared/components/pagination/paginat
 import {TableComponent} from '../../../shared/components/table/table.component';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
+import {SidebarComponent} from '../../../shared/components/sidebar/sidebar.component';
 
 
 @Component({
@@ -15,7 +16,9 @@ import {NgIf} from '@angular/common';
   imports: [
     PaginationComponent,
     TableComponent,
-    FormsModule
+    FormsModule,
+    SidebarComponent,
+    NgIf
   ],
   styleUrls: ['./owner-room-table.component.css']
 })
