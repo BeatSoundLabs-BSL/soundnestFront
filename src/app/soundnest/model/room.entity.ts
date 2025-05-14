@@ -1,13 +1,17 @@
 export class Room {
   id: number;
-  capacity: string;
+  name: string;
+  capacity: number;
   description: string;
+  price: number;
   isAvailable: boolean;
 
-  constructor(room: {id?: number, capacity?: string, description?: string, isAvailable?: boolean}) {
+  constructor(room: {id?: number,name?:string, capacity?: number, description?: string,price?:number, isAvailable?: boolean}) {
     this.id = room.id || 0;
-    this.capacity = room.capacity || ' ';
+    this.name = room.name || ' ';
+    this.capacity = room.capacity || 0;
     this.description = room.description || ' ';
+    this.price = room.price|| 0;
     this.isAvailable = room.isAvailable || false;
   }
 }

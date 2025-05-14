@@ -29,9 +29,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
     MatAnchor,
     RouterLink,
     LanguageSwitcherComponent,
-    RouterOutlet,
-    RouterLinkActive,
-    TranslatePipe
+    RouterOutlet
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

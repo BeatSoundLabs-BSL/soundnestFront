@@ -1,13 +1,15 @@
 import { Component, Input, Output, EventEmitter, OnInit, ContentChild, TemplateRef } from '@angular/core';
-import {NgClass} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   imports: [
-    NgClass
+    NgClass,
+    NgIf,
+    NgForOf
   ],
-  styleUrls: ['./table.component.scss']
+  styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
   @Input() columns: Array<{

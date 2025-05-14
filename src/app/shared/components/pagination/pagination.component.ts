@@ -1,9 +1,13 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {NgForOf} from '@angular/common';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
-  styleUrls: ['./pagination.component.scss']
+  imports: [
+    NgForOf
+  ],
+  styleUrls: ['./pagination.component.css']
 })
 export class PaginationComponent implements OnChanges {
   @Input() totalItems: number = 0;
