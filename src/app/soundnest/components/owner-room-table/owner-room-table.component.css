@@ -1,4 +1,4 @@
-.dashboard-container {
+.room-list-container {
   display: flex;
   min-height: 90vh; /* Takes full viewport height */
 }

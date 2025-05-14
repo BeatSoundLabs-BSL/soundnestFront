@@ -13,8 +13,7 @@ import {routes} from './app/app.routes';
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
-    { provide: RoomService, useClass: MockRoomService },
-    appConfig.providers,
+    RoomService,
     importProvidersFrom(TranslateModule.forRoot()),
     provideRouter(routes)
     // Add other providers as needed
