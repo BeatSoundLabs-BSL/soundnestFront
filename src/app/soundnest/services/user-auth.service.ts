@@ -36,7 +36,7 @@ export class AuthService extends BaseService<User> {
    */
   login(email: string, password: string): Observable<User> {
     const loginData = { email, password };
-    const loginUrl = `${this.serverBaseUrl}/auth/login`;
+    const loginUrl = `${this.serverBaseUrl}/users`;
 
     return this.http.post<{ user: User, token: string }>(loginUrl, JSON.stringify(loginData), this.httpOptions)
       .pipe(
@@ -71,7 +71,7 @@ export class AuthService extends BaseService<User> {
    * @returns Observable of the registered User
    */
   register(user: User): Observable<User> {
-    const registerUrl = `${this.serverBaseUrl}/auth/register`;
+    const registerUrl = `${this.serverBaseUrl}/users`;
 
     return this.http.post<User>(registerUrl, JSON.stringify(user), this.httpOptions)
       .pipe(

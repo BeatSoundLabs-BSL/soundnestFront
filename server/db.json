@@ -1,9 +1,29 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "password": "hashedPassword123",
+      "isOwner": false
+    },
+    {
+      "id": 2,
+      "name": "Juan Diego",
+      "email": "test@example.com",
+      "password": "pass123",
+      "isOwner": true
+    },
+    {
+      "email": "test@example.com",
+      "password": "pass123",
+      "id": 3
+    }
+  ],
   "reservations": [],
   "rooms": [],
   "reports": [],
   "usage-log": [],
-  "history": [] ,
+  "history": [],
   "sounds-recordings": []
 }
