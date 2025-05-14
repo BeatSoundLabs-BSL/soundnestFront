@@ -36,28 +36,38 @@ export class AuthService extends BaseService<User> {
    */
   login(email: string, password: string): Observable<User> {
     const loginData = { email, password };
-    const loginUrl = `${this.serverBaseUrl}/users`;
 
-    return this.http.post<{ user: User, token: string }>(loginUrl, JSON.stringify(loginData), this.httpOptions)
+    // Instead of creating a new user, we need to check if the user exists
+    // We'll use a GET request with query parameters to find matching users
+    const loginUrl = `${this.serverBaseUrl}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+
+    return this.http.get<User[]>(loginUrl, this.httpOptions)
       .pipe(
-        map(response => {
-          // Store token in local storage or a token service if needed
-          if (response.token) {
-            localStorage.setItem('authToken', response.token);
+        map(users => {
+          // Check if we found a matching user
+          if (users && users.length > 0) {
+            const user = users[0];
 
-            // Update HTTP headers with the new token for future requests
+            // Simulate token generation (in a real app, this would come from the backend)
+            const token = 'simulated-jwt-token-' + Date.now();
+            localStorage.setItem('authToken', token);
+
+            // Update HTTP headers with the token for future requests
             this.httpOptions = {
               headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${response.token}`
+                'Authorization': `Bearer ${token}`
               })
             };
+
+            // Save the user in local storage and update the behavior subject
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+
+            return user;
+          } else {
+            throw new Error('Invalid email or password');
           }
-          return response.user;
-        }),
-        tap(user => {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
         }),
         catchError(error => {
           return throwError(() => new Error('Authentication failed: ' + (error.error?.message || 'Invalid credentials')));

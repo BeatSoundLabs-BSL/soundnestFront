@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {AuthService} from '../../services/user-auth.service';
+import { AuthService } from '../../services/user-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   ) {
     // Redirect if already logged in
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
@@ -36,8 +36,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    // Get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    // Get return url from route parameters or default to '/dashboard'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
   get f() { return this.loginForm.controls; }
@@ -51,14 +51,18 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
+    this.error = ''; // Clear previous errors
+
     this.authService.login(this.f['email'].value, this.f['password'].value)
       .subscribe({
         next: () => {
+          console.log('Login successful, navigating to:', this.returnUrl);
           this.router.navigate([this.returnUrl]);
         },
         error: error => {
-          this.error = error;
+          this.error = error.message || 'Login failed. Please check your credentials.';
           this.loading = false;
+          console.error('Login error:', error);
         }
       });
   }

@@ -13,11 +13,6 @@
       "email": "test@example.com",
       "password": "pass123",
       "isOwner": true
-    },
-    {
-      "email": "test@example.com",
-      "password": "pass123",
-      "id": 3
     }
   ],
   "reservations": [],
