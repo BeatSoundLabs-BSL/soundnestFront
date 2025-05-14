@@ -4,23 +4,8 @@ import {LanguageSwitcherComponent} from './public/components/language-switcher/l
 import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
 import {MatAnchor} from '@angular/material/button';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
+import {AuthService} from './soundnest/services/user-auth.service';
 
-/**
- * Root component of the Learning Center application.
- * Provides the main layout structure including navigation toolbar and routing outlet.
- *
- * @remarks
- * This component:
- * - Initializes the application's translation service
- * - Provides the main navigation structure
- * - Serves as the application shell
- *
- * @example
- * ```html
- * <!-- In index.html -->
- * <app-root></app-root>
- * ```
- */
 @Component({
   selector: 'app-root',
   imports: [
@@ -35,9 +20,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  /** Application title */
   title = 'sound-nest';
-
   /**
    * Navigation options for the main menu.
    * Each option contains a route link and a translation label key.
@@ -46,7 +29,7 @@ export class AppComponent {
     {link: '/dashboard', label: 'dashboard'},
     {link: '/reservations', label: 'reservations'},
     {link: '/calendar', label: 'calendar'},
-    {link: '/learning/rooms', label: 'rooms'},
+    {link: '/room-list', label: 'rooms'},
     {link: '/alerts', label: 'alerts'},
     {link: '/history', label: 'history'},
     {link: '/settings', label: 'settings'},
@@ -58,7 +41,7 @@ export class AppComponent {
    *
    * @param translate - The translation service for handling internationalization
    */
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, authService: AuthService) {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
   }
