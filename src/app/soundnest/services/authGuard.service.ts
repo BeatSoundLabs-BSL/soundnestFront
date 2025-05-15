@@ -7,11 +7,19 @@ export const authGuard = () => {
   const router = inject(Router);
 
   if (authService.isLoggedIn()) {
+    if (authService.isOwner() && router.url.startsWith('/user')) {
+      router.navigate(['/owner/dashboard']);
+      return false;
+    }
+
     return true;
   }
 
-  // Not logged in so redirect to login page with the return url
-  router.navigate(['/login'], { queryParams: { returnUrl: router.url } });
+  if (router.url !== '/') {
+    router.navigate(['/login'], { queryParams: { returnUrl: router.url } });
+  } else {
+    router.navigate(['/login']);
+  }
   return false;
 };
 
@@ -24,12 +32,10 @@ export const ownerGuard = () => {
   }
 
   if (authService.isLoggedIn()) {
-    // Redirect non-owner users to user dashboard instead of just /dashboard
     router.navigate(['/user/dashboard']);
     return false;
   }
 
-  // Not logged in so redirect to login page
-  router.navigate(['/login'], { queryParams: { returnUrl: router.url } });
+  router.navigate(['/login']);
   return false;
 };

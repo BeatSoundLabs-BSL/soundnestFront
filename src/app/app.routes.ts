@@ -14,7 +14,14 @@ import {UserDashboardComponent} from './soundnest/pages/user-dashboard/user-dash
 import {UserReservationsComponent} from './soundnest/pages/user-reservations/user-reservations.component';
 
 export const routes: Routes = [
-  { path: '',                 redirectTo: 'user/dashboard', pathMatch: 'full' },
+  { path: '',
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        component: UserDashboardComponent
+      }
+    ]},
   { path: 'login',             component: LoginComponent },
   { path: 'register',          component: RegisterComponent },
   { path: 'owner/dashboard',             component: DashboardComponent, canActivate: [ownerGuard] },

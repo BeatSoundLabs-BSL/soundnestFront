@@ -26,12 +26,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService
   ) {
+    // Check if user is already logged in and redirect accordingly
     if (this.authService.isLoggedIn()) {
-      if (this.authService.currentUserValue?.isOwner) {
-        this.router.navigate(['/owner/dashboard']);
-      }else{
-        this.router.navigate(['user/dashboard']);
-      }
+      this.redirectLoggedInUser();
     }
   }
 
@@ -41,6 +38,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
+    // Get return url from route parameters
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/user/dashboard';
   }
 
@@ -56,13 +54,9 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.f['email'].value, this.f['password'].value)
       .subscribe({
-        next: (user) => {
-          console.log('Login exitososo, navegando segun rol');
-          if (user.isOwner) {
-            this.router.navigate(['/owner/dashboard']); // Owner's ownerDashboard
-          } else {
-            this.router.navigate(['/user/dashboard']); // Default Dashboard for regular users
-          }
+        next: () => {
+          console.log('Login exitoso, navegando segun rol');
+          this.redirectLoggedInUser();
         },
         error: error => {
           this.error = error.message || 'Login failed. Please check your credentials.';
@@ -70,5 +64,20 @@ export class LoginComponent implements OnInit {
           console.error('Login error:', error);
         }
       });
+  }
+
+  // Helper method to redirect users based on their role
+  private redirectLoggedInUser(): void {
+    const user = this.authService.currentUserValue;
+    if (user?.isOwner) {
+      this.router.navigate(['/owner/dashboard']);
+    } else {
+      // Check if returnUrl is the root path, and if so, redirect to user dashboard
+      if (this.returnUrl === '/' || this.returnUrl === '%2F') {
+        this.router.navigate(['/user/dashboard']);
+      } else {
+        this.router.navigate([this.returnUrl]);
+      }
+    }
   }
 }
