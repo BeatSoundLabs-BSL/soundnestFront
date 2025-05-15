@@ -1,0 +1,24 @@
+<aside class="sidebar">
+  <div class="logo-block">
+    <img src="/assets/images/logo.png" alt="SoundNest Logo" class="sidebar-logo" />
+    <h3 class="sidebar-title">SoundNest</h3>
+  </div>
+
+  <ul class="sidebar-menu">
+    @for (menuItem of menuItems; track menuItem.path) {
+      <li>
+        <a [routerLink]="menuItem.path"
+           routerLinkActive="active"
+           class="sidebar-link">
+          <i class="fas {{ menuItem.icon }}"></i> {{ menuItem.label }}
+        </a>
+      </li>
+    }
+  </ul>
+
+  <div class="sidebar-footer">
+    <button class="logout-button" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
+</aside>
