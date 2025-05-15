@@ -23,25 +23,24 @@
     }
   ],
   "reservations": [
-    { "id": 1,  "roomId": 1,  "userId": 3, "date": "2025-05-16T10:00:00Z" },
     { "id": 2,  "roomId": 2,  "userId": 2, "date": "2025-05-17T14:30:00Z" },
     { "id": 3,  "roomId": 2,  "userId": 2, "date": "2025-05-17T18:00:00Z" }
   ],
   "rooms": [
     {
       "id": 1,
-      "name": "Hola",
+      "name": "Sala Juan Diego",
       "capacity": 5,
       "price": 10,
       "description": "",
       "isAvailable": true,
-      "createdBy": 3
+      "createdBy": 2
     },
     {
       "id": 2,
-      "name": "Sala Juan Diego",
-      "capacity": 5,
-      "price": 10,
+      "name": "Sala Juan Diego 2",
+      "capacity": 10,
+      "price": 20,
       "description": "",
       "isAvailable": true,
       "createdBy": 2
