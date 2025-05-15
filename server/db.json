@@ -23,8 +23,8 @@
     }
   ],
   "reservations": [
-    { "id": 2,  "roomId": 2,  "userId": 2, "date": "2025-05-17T14:30:00Z" },
-    { "id": 3,  "roomId": 2,  "userId": 2, "date": "2025-05-17T18:00:00Z" }
+    { "id": 1,  "roomId": 2,  "userId": 3, "date": "2025-05-17T14:30:00Z" },
+    { "id": 2,  "roomId": 2,  "userId": 1, "date": "2025-05-17T18:00:00Z" }
   ],
   "rooms": [
     {
