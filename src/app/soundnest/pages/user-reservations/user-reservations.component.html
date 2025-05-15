@@ -72,7 +72,7 @@
                   [disabled]="!dateSelected">
                   <option value="" disabled selected>Selecciona una sala</option>
                   <option *ngFor="let room of availableRooms" [value]="room.id">
-                    {{ room.name }} - {{ room.location }}
+                    {{ room.name }}
                   </option>
                 </select>
                 <small *ngIf="!dateSelected" class="form-text text-muted">
