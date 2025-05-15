@@ -8,6 +8,7 @@ import {TableComponent} from '../../../shared/components/table/table.component';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {SidebarComponent} from '../../../shared/components/sidebar/sidebar.component';
+import {AuthService} from '../../services/user-auth.service';
 
 
 @Component({
@@ -50,11 +51,15 @@ export class ownerRoomsTable implements OnInit {
   roomDescription = '';
   roomIsAvailable = false;
   roomPrice = 0;
+  currentUserId: number = 0;
 
   constructor(
     private router: Router,
     private roomService: RoomService,
-  ) {}
+    private authService: AuthService,
+  ) {
+    this.currentUserId = this.authService.currentUserValue?.id || 0;
+  }
 
   ngOnInit(): void {
     this.loadRooms();
@@ -63,7 +68,7 @@ export class ownerRoomsTable implements OnInit {
   loadRooms(): void {
     this.roomService.getAll().pipe(
       tap(rooms => {
-        this.rooms = rooms;
+        this.rooms = rooms.filter(room => room.createdBy === this.currentUserId);;
         this.totalRooms = rooms.length;
         this.pagedRooms = this.getPagedRooms();
       }),
@@ -163,7 +168,8 @@ export class ownerRoomsTable implements OnInit {
       capacity: this.roomCapacity,
       price: this.roomPrice,
       description: this.roomDescription,
-      isAvailable: this.roomIsAvailable
+      isAvailable: this.roomIsAvailable,
+      createdBy: this.currentUserId
     };
 
     if (this.editingRoom) {
@@ -190,11 +196,11 @@ export class ownerRoomsTable implements OnInit {
   }
 
   deleteRoom(room: Room, event: Event): void {
-    event.stopPropagation(); // Prevent row click when deleting
+    event.stopPropagation();
     if (confirm(`¿Estás seguro de que deseas eliminar esta sala: ${room.name}?`)) {
       this.loading = true;
       this.roomService.delete(room.id).pipe(
-        tap(() => this.loadRooms()), // Reload rooms after deletion
+        tap(() => this.loadRooms()),
         tap(() => this.loading = false)
       ).subscribe();
     }

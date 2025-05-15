@@ -1,2 +1,26 @@
-<h1>Reservations</h1>
-<p>Reservations works</p>
+<div class="reservations-list-container">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <div class="page-header">
+      <h1>Reservas de mis Salas</h1>
+    </div>
+
+    <app-table
+      [columns]="columns"
+      [data]="pagedReservations"
+      [loading]="loading"
+      [sortField]="sortField"
+      [sortOrder]="sortOrder"
+      (sort)="onSort($event)">
+    </app-table>
+
+    <app-pagination
+      [totalItems]="totalReservations"
+      [itemsPerPage]="itemsPerPage"
+      [currentPage]="currentPage"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
+    </app-pagination>
+  </div>
+</div>

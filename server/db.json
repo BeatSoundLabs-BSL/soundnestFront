@@ -22,8 +22,31 @@
       "isOwner": false
     }
   ],
-  "reservations": [],
-  "rooms": [],
+  "reservations": [
+    { "id": 1,  "roomId": 1,  "userId": 3, "date": "2025-05-16T10:00:00Z" },
+    { "id": 2,  "roomId": 2,  "userId": 2, "date": "2025-05-17T14:30:00Z" },
+    { "id": 3,  "roomId": 2,  "userId": 2, "date": "2025-05-17T18:00:00Z" }
+  ],
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Hola",
+      "capacity": 5,
+      "price": 10,
+      "description": "",
+      "isAvailable": true,
+      "createdBy": 3
+    },
+    {
+      "id": 2,
+      "name": "Sala Juan Diego",
+      "capacity": 5,
+      "price": 10,
+      "description": "",
+      "isAvailable": true,
+      "createdBy": 2
+    }
+  ],
   "reports": [],
   "usage-log": [],
   "history": [],
