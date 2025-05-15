@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   error = '';
-  returnUrl: string = '/';
+  returnUrl: string = '/user/dashboard';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/user/Dashboard';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/user/dashboard';
   }
 
   get f() { return this.loginForm.controls; }
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
           if (user.isOwner) {
             this.router.navigate(['/owner/dashboard']); // Owner's ownerDashboard
           } else {
-            this.router.navigate([this.returnUrl]); // Default Dashboard for regular users
+            this.router.navigate(['/user/dashboard']); // Default Dashboard for regular users
           }
         },
         error: error => {

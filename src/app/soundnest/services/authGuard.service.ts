@@ -24,7 +24,8 @@ export const ownerGuard = () => {
   }
 
   if (authService.isLoggedIn()) {
-    router.navigate(['/dashboard']);
+    // Redirect non-owner users to user dashboard instead of just /dashboard
+    router.navigate(['/user/dashboard']);
     return false;
   }
 
