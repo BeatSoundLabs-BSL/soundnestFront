@@ -16,7 +16,6 @@ export class RoomService extends BaseService<Room> {
   }
 
   getAvailableRooms(): Observable<Room[]> {
-    // Using the getAll method from BaseService and filtering the results
     return this.getAll().pipe(
       map(rooms => rooms.filter(room => room.isAvailable))
     );
@@ -44,7 +43,15 @@ export class RoomService extends BaseService<Room> {
       })
     );
   }
+  getByIds(ids: number[]): Observable<Room[]> {
+    if (ids.length === 0) {
+      return of([]);
+    }
 
+    return this.getAll().pipe(
+      map(rooms => rooms.filter(room => ids.includes(room.id)))
+    );
+  }
   getFeaturedRooms(): Observable<Room[]> {
     return this.getAll().pipe(
       map(rooms =>
@@ -54,4 +61,7 @@ export class RoomService extends BaseService<Room> {
       )
     );
   }
+
+
+
 }

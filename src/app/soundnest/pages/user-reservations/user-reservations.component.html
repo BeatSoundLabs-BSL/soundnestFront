@@ -1,1 +1,40 @@
-<p>user-reservations works!</p>
+<div class="reservations-list-container">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <div class="page-header">
+      <h1>Mis Reservas</h1>
+    </div>
+
+    <app-table
+      [columns]="columns"
+      [data]="pagedReservations"
+      [loading]="loading"
+      [sortField]="sortField"
+      [sortOrder]="sortOrder"
+      (sort)="onSort($event)">
+      <ng-template #actions let-reservation>
+        <div class="row-actions">
+          <button
+            *ngIf="reservation.status !== 'Completada'"
+            class="btn btn-sm btn-delete"
+            (click)="cancelReservation(reservation.id)">
+            Cancelar
+          </button>
+        </div>
+      </ng-template>
+    </app-table>
+
+    <div *ngIf="totalReservations === 0 && !loading" class="no-reservations">
+      <p>No tienes reservas actualmente. ¡Reserva una sala para empezar!</p>
+    </div>
+
+    <app-pagination
+      [totalItems]="totalReservations"
+      [itemsPerPage]="itemsPerPage"
+      [currentPage]="currentPage"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
+    </app-pagination>
+  </div>
+</div>
