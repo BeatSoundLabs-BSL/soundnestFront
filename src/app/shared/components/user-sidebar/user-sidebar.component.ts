@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {RouterModule, RouterLink, RouterLinkActive, Router} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {AuthService} from '../../../soundnest/services/user-auth.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-sidebar',

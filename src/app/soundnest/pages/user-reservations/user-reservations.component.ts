@@ -7,7 +7,8 @@ import { Room } from '../../model/room.entity';
 import { tap, switchMap } from 'rxjs';
 import { TableComponent } from '../../../shared/components/table/table.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
-import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import {UserSidebarComponent} from '../../../shared/components/user-sidebar/user-sidebar.component';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-user-reservations',
@@ -15,7 +16,8 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
   imports: [
     TableComponent,
     PaginationComponent,
-    SidebarComponent
+    UserSidebarComponent,
+    FormsModule
   ],
   templateUrl: './user-reservations.component.html',
   styleUrl: './user-reservations.component.css'
@@ -38,12 +40,24 @@ export class UserReservationsComponent implements OnInit {
   sortOrder: 'asc' | 'desc' = 'asc';
   loading = false;
 
+  showReservationModal = false;
+  dateSelected = false;
+  minDate: string;
+  availableRooms: Room[] = [];
+  allRooms: Room[] = [];
+  newReservation: Partial<Reservation> = {
+    userId: 0,
+    roomId: 0,
+    date: ''
+  };
+
   constructor(
     private reservationService: ReservationService,
     private roomService: RoomService,
     private authService: AuthService
   ) {
     this.currentUserId = this.authService.currentUserValue?.id || 0;
+    this.newReservation.userId = this.currentUserId;
   }
 
   ngOnInit(): void {
@@ -139,4 +153,71 @@ export class UserReservationsComponent implements OnInit {
       });
     }
   }
+
+  openNewReservationModal(): void {
+    this.resetNewReservation();
+    this.showReservationModal = true;
+  }
+
+  closeNewReservationModal(): void {
+    this.showReservationModal = false;
+    this.resetNewReservation();
+  }
+
+  resetNewReservation(): void {
+    this.newReservation = {
+      userId: this.currentUserId,
+      roomId: 0,
+      date: ''
+    };
+    this.dateSelected = false;
+    this.availableRooms = [];
+  }
+
+  onDateSelected(): void {
+    if (!this.newReservation.date) {
+      this.dateSelected = false;
+      this.availableRooms = [];
+      return;
+    }
+
+    this.dateSelected = true;
+    this.loadAvailableRooms();
+  }
+
+  loadAvailableRooms(): void {
+    if (!this.newReservation.date) return;
+
+    const selectedDate = new Date(this.newReservation.date).toISOString().split('T')[0];
+
+    this.reservationService.getReservationsByDate(selectedDate).subscribe(reservations => {
+      const reservedRoomIds = reservations.map(r => r.roomId);
+      this.availableRooms = this.allRooms.filter(room => !reservedRoomIds.includes(room.id));
+    });
+  }
+
+  createReservation(): void {
+    if (!this.newReservation.roomId || !this.newReservation.date) {
+      return;
+    }
+
+    const reservation: Reservation = {
+      id: 0,
+      userId: this.currentUserId,
+      roomId: this.newReservation.roomId as number,
+      date: new Date(this.newReservation.date).toISOString()
+    };
+
+    this.reservationService.create(reservation).subscribe({
+      next: () => {
+        this.closeNewReservationModal();
+        this.loadReservations();
+      },
+      error: (error) => {
+        console.error('Error creating reservation:', error);
+        alert('Error al crear la reserva. Por favor, inténtalo de nuevo.');
+      }
+    });
+  }
+
 }
