@@ -7,8 +7,10 @@ import { Room } from '../../model/room.entity';
 import { tap, switchMap } from 'rxjs';
 import { TableComponent } from '../../../shared/components/table/table.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
-import {UserSidebarComponent} from '../../../shared/components/user-sidebar/user-sidebar.component';
-import {FormsModule} from '@angular/forms';
+import { UserSidebarComponent } from '../../../shared/components/user-sidebar/user-sidebar.component';
+import { FormsModule } from '@angular/forms';
+import {NgForOf, NgIf} from '@angular/common';
+
 
 @Component({
   selector: 'app-user-reservations',
@@ -17,7 +19,9 @@ import {FormsModule} from '@angular/forms';
     TableComponent,
     PaginationComponent,
     UserSidebarComponent,
-    FormsModule
+    FormsModule,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './user-reservations.component.html',
   styleUrl: './user-reservations.component.css'
@@ -42,10 +46,14 @@ export class UserReservationsComponent implements OnInit {
 
   showReservationModal = false;
   dateSelected = false;
-  minDate: string;
+  minDate: string = new Date().toISOString().slice(0, 16);
   availableRooms: Room[] = [];
   allRooms: Room[] = [];
-  newReservation: Partial<Reservation> = {
+  newReservation: {
+    userId: number;
+    roomId: number;
+    date: string;
+  } = {
     userId: 0,
     roomId: 0,
     date: ''
@@ -62,6 +70,9 @@ export class UserReservationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadReservations();
+    this.roomService.getAll().subscribe(rooms => {
+      this.allRooms = rooms;
+    });
   }
 
   loadReservations(): void {
@@ -201,12 +212,13 @@ export class UserReservationsComponent implements OnInit {
       return;
     }
 
-    const reservation: Reservation = {
+    // Create a proper Reservation object with a Date object for the date property
+    const reservation = new Reservation({
       id: 0,
       userId: this.currentUserId,
-      roomId: this.newReservation.roomId as number,
-      date: new Date(this.newReservation.date).toISOString()
-    };
+      roomId: this.newReservation.roomId,
+      date: this.newReservation.date // The constructor will handle the conversion from string to Date
+    });
 
     this.reservationService.create(reservation).subscribe({
       next: () => {
@@ -219,5 +231,4 @@ export class UserReservationsComponent implements OnInit {
       }
     });
   }
-
 }

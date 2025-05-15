@@ -12,6 +12,7 @@ export class ReservationService extends BaseService<Reservation> {
   constructor() {
     super();
     this.resourceEndpoint = '/reservations';
+    this.serverBaseUrl = `https://6825b65d0f0188d7e72e1d1e.mockapi.io/api/v1`;
   }
 
   getReservationsByUser(userId: number): Observable<Reservation[]> {
