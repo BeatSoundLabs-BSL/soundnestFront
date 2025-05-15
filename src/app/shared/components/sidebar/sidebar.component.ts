@@ -17,13 +17,13 @@ import {AuthService} from '../../../soundnest/services/user-auth.service';
 })
 export class SidebarComponent {
   menuItems = [
-    { path: '/dashboard', icon: 'fa-home', label: 'Dashboard' },
-    { path: '/reservations', icon: 'fa-calendar-check', label: 'Reservations' },
-    { path: '/room-list', icon: 'fa-door-open', label: 'Rooms' },
-    { path: '/calendar', icon: 'fa-calendar-alt', label: 'Calendar' },
-    { path: '/alerts', icon: 'fa-bell', label: 'Alerts' },
-    { path: '/history', icon: 'fa-history', label: 'History' },
-    { path: '/settings', icon: 'fa-cog', label: 'Settings' }
+    { path: '/owner/dashboard', icon: 'fa-home', label: 'Dashboard' },
+    { path: '/owner/reservations', icon: 'fa-calendar-check', label: 'Reservations' },
+    { path: '/owner/room-list', icon: 'fa-door-open', label: 'Rooms' },
+    { path: '/owner/calendar', icon: 'fa-calendar-alt', label: 'Calendar' },
+    { path: '/owner/alerts', icon: 'fa-bell', label: 'Alerts' },
+    { path: '/owner/history', icon: 'fa-history', label: 'History' },
+    { path: '/owner/settings', icon: 'fa-cog', label: 'Settings' }
   ];
 
   constructor(public authService: AuthService) {}
