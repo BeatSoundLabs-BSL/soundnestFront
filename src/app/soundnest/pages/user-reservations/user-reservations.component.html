@@ -1,0 +1,101 @@
+<div class="reservations-list-container">
+  <app-user-sidebar></app-user-sidebar>
+  <div class="main-content">
+    <div class="page-header">
+      <h1>Mis Reservas</h1>
+      <button class="btn btn-primary" (click)="openNewReservationModal()">Nueva Reserva</button>
+    </div>
+
+    <app-table
+      [columns]="columns"
+      [data]="pagedReservations"
+      [loading]="loading"
+      [sortField]="sortField"
+      [sortOrder]="sortOrder"
+      (sort)="onSort($event)">
+      <ng-template #actions let-reservation>
+        <div class="row-actions">
+          <button
+            *ngIf="reservation.status !== 'Completada'"
+            class="btn btn-sm btn-delete"
+            (click)="cancelReservation(reservation.id)">
+            Cancelar
+          </button>
+        </div>
+      </ng-template>
+    </app-table>
+
+    <div *ngIf="totalReservations === 0 && !loading" class="no-reservations">
+      <p>No tienes reservas actualmente. ¡Reserva una sala para empezar!</p>
+    </div>
+
+    <app-pagination
+      [totalItems]="totalReservations"
+      [itemsPerPage]="itemsPerPage"
+      [currentPage]="currentPage"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
+    </app-pagination>
+
+    <div class="modal" [class.show]="showReservationModal">
+      <div class="modal-backdrop" (click)="closeNewReservationModal()"></div>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Nueva Reserva</h5>
+            <button type="button" class="close" (click)="closeNewReservationModal()">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="reservationDate">Fecha y Hora</label>
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  id="reservationDate"
+                  [(ngModel)]="newReservation.date"
+                  name="date"
+                  [min]="minDate"
+                  (change)="onDateSelected()">
+              </div>
+
+              <div class="form-group">
+                <label for="roomSelect">Sala</label>
+                <select
+                  class="form-control"
+                  id="roomSelect"
+                  [(ngModel)]="newReservation.roomId"
+                  name="roomId"
+                  [disabled]="!dateSelected">
+                  <option value="" disabled selected>Selecciona una sala</option>
+                  <option *ngFor="let room of availableRooms" [value]="room.id">
+                    {{ room.name }}
+                  </option>
+                </select>
+                <small *ngIf="!dateSelected" class="form-text text-muted">
+                  Primero selecciona una fecha para ver las salas disponibles
+                </small>
+                <small *ngIf="availableRooms.length === 0 && dateSelected" class="form-text text-danger">
+                  No hay salas disponibles para la fecha seleccionada
+                </small>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeNewReservationModal()">Cancelar</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              [disabled]="!newReservation.roomId || !newReservation.date"
+              (click)="createReservation()">
+              Reservar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

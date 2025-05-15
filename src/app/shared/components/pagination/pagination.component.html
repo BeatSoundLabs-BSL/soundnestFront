@@ -1,0 +1,44 @@
+<div class="pagination-container">
+  <div class="pagination-info">
+    <span>Items por página:</span>
+    <select [value]="itemsPerPage" (change)="setItemsPerPage($event)">
+      <option *ngFor="let option of pageSizeOptions" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+    <span>{{ startItem }} - {{ endItem }} de {{ totalItems }}</span>
+  </div>
+
+  <div class="pagination-controls">
+    <button class="pagination-btn first"
+            [disabled]="!hasPrevious"
+            (click)="setPage(1)">
+      &laquo;
+    </button>
+    <button class="pagination-btn prev"
+            [disabled]="!hasPrevious"
+            (click)="setPage(currentPage - 1)">
+      &lsaquo;
+    </button>
+
+    <div class="page-numbers">
+      <button *ngFor="let page of pages"
+              class="page-number"
+              [class.active]="page === currentPage"
+              (click)="setPage(page)">
+        {{ page }}
+      </button>
+    </div>
+
+    <button class="pagination-btn next"
+            [disabled]="!hasNext"
+            (click)="setPage(currentPage + 1)">
+      &rsaquo;
+    </button>
+    <button class="pagination-btn last"
+            [disabled]="!hasNext"
+            (click)="setPage(totalPages)">
+      &raquo;
+    </button>
+  </div>
+</div>

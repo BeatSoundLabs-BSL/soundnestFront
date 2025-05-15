@@ -1,0 +1,11 @@
+<div class="toggle-navigation">
+  <ul class="tabs-list">
+    <li *ngFor="let tab of tabs"
+        [class.active]="isActive(tab.id)"
+        [class.disabled]="tab.disabled"
+        (click)="!tab.disabled && setActiveTab(tab.id)">
+      {{ tab.label }}
+      <div *ngIf="isActive(tab.id)" class="active-indicator"></div>
+    </li>
+  </ul>
+</div>
