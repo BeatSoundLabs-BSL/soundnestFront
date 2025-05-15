@@ -26,9 +26,12 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService
   ) {
-    // Redirect if already logged in
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/dashboard']);
+      if (this.authService.currentUserValue?.isOwner) {
+        this.router.navigate(['/owner/dashboard']);
+      }else{
+        this.router.navigate(['user/dashboard']);
+      }
     }
   }
 
@@ -38,28 +41,28 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    // Get return url from route parameters or default to '/dashboard'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/user/Dashboard';
   }
 
   get f() { return this.loginForm.controls; }
 
   onSubmit(): void {
     this.submitted = true;
-
-    // Stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
-
     this.loading = true;
-    this.error = ''; // Clear previous errors
+    this.error = '';
 
     this.authService.login(this.f['email'].value, this.f['password'].value)
       .subscribe({
-        next: () => {
-          console.log('Login successful, navigating to:', this.returnUrl);
-          this.router.navigate([this.returnUrl]);
+        next: (user) => {
+          console.log('Login exitososo, navegando segun rol');
+          if (user.isOwner) {
+            this.router.navigate(['/owner/dashboard']); // Owner's ownerDashboard
+          } else {
+            this.router.navigate([this.returnUrl]); // Default Dashboard for regular users
+          }
         },
         error: error => {
           this.error = error.message || 'Login failed. Please check your credentials.';

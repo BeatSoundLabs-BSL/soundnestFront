@@ -28,31 +28,20 @@ export class AuthService extends BaseService<User> {
     return this.currentUserSubject.value;
   }
 
-  /**
-   * Authenticates a user with email and password
-   * @param email User's email
-   * @param password User's password
-   * @returns Observable of authenticated User or error
-   */
   login(email: string, password: string): Observable<User> {
     const loginData = { email, password };
 
-    // Instead of creating a new user, we need to check if the user exists
-    // We'll use a GET request with query parameters to find matching users
     const loginUrl = `${this.serverBaseUrl}/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
 
     return this.http.get<User[]>(loginUrl, this.httpOptions)
       .pipe(
         map(users => {
-          // Check if we found a matching user
           if (users && users.length > 0) {
             const user = users[0];
 
-            // Simulate token generation (in a real app, this would come from the backend)
             const token = 'simulated-jwt-token-' + Date.now();
             localStorage.setItem('authToken', token);
 
-            // Update HTTP headers with the token for future requests
             this.httpOptions = {
               headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -60,7 +49,6 @@ export class AuthService extends BaseService<User> {
               })
             };
 
-            // Save the user in local storage and update the behavior subject
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
 
@@ -75,47 +63,29 @@ export class AuthService extends BaseService<User> {
       );
   }
 
-  /**
-   * Registers a new user
-   * @param user User data for registration
-   * @returns Observable of the registered User
-   */
   register(user: User): Observable<User> {
     const registerUrl = `${this.serverBaseUrl}/users`;
 
     return this.http.post<User>(registerUrl, JSON.stringify(user), this.httpOptions)
       .pipe(
         tap(createdUser => {
-          // Optionally auto-login after registration
-          // this.currentUserSubject.next(createdUser);
-          // localStorage.setItem('currentUser', JSON.stringify(createdUser));
+
         }),
         catchError(this.handleError)
       );
   }
 
-  /**
-   * Logs out the current user
-   */
   logout(): void {
-    // Optional: Call logout endpoint to invalidate token on server
-    // this.http.post(`${this.serverBaseUrl}/auth/logout`, {}, this.httpOptions).subscribe();
 
     localStorage.removeItem('currentUser');
     localStorage.removeItem('authToken');
     this.currentUserSubject.next(null);
 
-    // Reset HTTP headers to default (no auth token)
     this.httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
   }
 
-  /**
-   * Updates the current user's profile
-   * @param userData Updated user data
-   * @returns Observable of the updated User
-   */
   updateProfile(userData: Partial<User>): Observable<User> {
     if (!this.currentUserValue?.id) {
       return throwError(() => new Error('No authenticated user'));
@@ -130,26 +100,14 @@ export class AuthService extends BaseService<User> {
       );
   }
 
-  /**
-   * Check if user is authenticated
-   * @returns boolean indicating if user is logged in
-   */
   isLoggedIn(): boolean {
     return !!this.currentUserValue;
   }
 
-  /**
-   * Check if current user has owner privileges
-   * @returns boolean indicating if user is an owner
-   */
   isOwner(): boolean {
     return this.currentUserValue?.isOwner || false;
   }
 
-  /**
-   * Refreshes the authentication token
-   * @returns Observable of the refresh result
-   */
   refreshToken(): Observable<string> {
     const refreshUrl = `${this.serverBaseUrl}/auth/refresh`;
     const token = localStorage.getItem('authToken');
@@ -168,7 +126,6 @@ export class AuthService extends BaseService<User> {
         const newToken = response.token;
         localStorage.setItem('authToken', newToken);
 
-        // Update HTTP headers with the new token
         this.httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',

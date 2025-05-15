@@ -26,7 +26,7 @@ export class AppComponent {
    * Each option contains a route link and a translation label key.
    */
   options = [
-    {link: '/dashboard', label: 'dashboard'},
+    {link: '/ownerDashboard', label: 'ownerDashboard'},
     {link: '/reservations', label: 'reservations'},
     {link: '/calendar', label: 'calendar'},
     {link: '/room-list', label: 'rooms'},
