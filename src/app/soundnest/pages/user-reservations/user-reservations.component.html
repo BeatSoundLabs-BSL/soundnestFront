@@ -13,7 +13,7 @@
       [sortField]="sortField"
       [sortOrder]="sortOrder"
       (sort)="onSort($event)">
-      <ng-template #actions let-reservation>
+      <ng-template #rowActions let-reservation>
         <div class="row-actions">
           <button
             *ngIf="reservation.status !== 'Completada'"

@@ -110,3 +110,17 @@ label {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}

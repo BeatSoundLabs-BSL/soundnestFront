@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Router, ActivatedRoute, RouterLink} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/user-auth.service';
 import {LanguageSwitcherComponent} from '../../../public/components/language-switcher/language-switcher.component';
@@ -9,7 +9,7 @@ import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LanguageSwitcherComponent, MatToolbar, MatToolbarRow],
+  imports: [CommonModule, ReactiveFormsModule, LanguageSwitcherComponent, MatToolbar, MatToolbarRow, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

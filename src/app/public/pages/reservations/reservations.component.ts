@@ -8,6 +8,7 @@ import { tap, switchMap } from 'rxjs';
 import { TableComponent } from '../../../shared/components/table/table.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import {UserService} from '../../../soundnest/services/user-service.service';
 
 @Component({
   selector: 'app-owner-reservations-table',
@@ -26,7 +27,7 @@ export class ReservationsComponent implements OnInit {
   columns = [
     { field: 'id', header: 'ID Reserva', width: '90px', sortable: true },
     { field: 'roomName', header: 'Sala', sortable: true },
-    { field: 'userId', header: 'Usuario', sortable: true },
+    { field: 'userName', header: 'Usuario', sortable: true },
     { field: 'date', header: 'Fecha', sortable: true }
   ];
 
@@ -39,11 +40,13 @@ export class ReservationsComponent implements OnInit {
   sortField = 'date';
   sortOrder: 'asc' | 'desc' = 'asc';
   loading = false;
+  userMap: Record<number, string> = {};
 
   constructor(
     private reservationService: ReservationService,
     private roomService: RoomService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {
     this.currentUserId = this.authService.currentUserValue?.id || 0;
   }
@@ -54,20 +57,36 @@ export class ReservationsComponent implements OnInit {
 
   loadReservations(): void {
     this.loading = true;
+
     this.roomService.getRoomsByCreator(this.currentUserId).pipe(
       switchMap((rooms: Room[]) => {
         const roomIds = rooms.map(r => r.id);
+
         return this.reservationService.getAll().pipe(
-          tap((allReservations: Reservation[]) => {
-            this.reservations = allReservations
-              .filter(r => roomIds.includes(r.roomId))
-              .map(r => ({
-                ...r,
-                roomName: rooms.find(room => room.id === r.roomId)?.name || 'Sala desconocida'
-              }));
-            this.totalReservations = this.reservations.length;
-            this.pagedReservations = this.getPagedReservations();
-            this.loading = false;
+          switchMap((allReservations: Reservation[]) => {
+            const filteredReservations = allReservations.filter(r => roomIds.includes(r.roomId));
+            const userIds = [...new Set(filteredReservations.map(r => r.userId))];
+
+            return this.userService.getAll().pipe(
+              tap(users => {
+                this.userMap = users.reduce((acc, user) => {
+                  acc[user.id] = user.name || 'Usuario';
+                  console.log(user.id)
+                  console.log(user.name)
+                  return acc;
+                }, {} as Record<number, string>);
+
+                this.reservations = filteredReservations.map(r => ({
+                  ...r,
+                  roomName: rooms.find(room => room.id === r.roomId)?.name || 'Sala desconocida',
+                  userName: this.userMap[r.userId] || 'Desconocido'
+                }));
+
+                this.totalReservations = this.reservations.length;
+                this.pagedReservations = this.getPagedReservations();
+                this.loading = false;
+              })
+            );
           })
         );
       })
