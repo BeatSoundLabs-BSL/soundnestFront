@@ -1,0 +1,23 @@
+.summary-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.summary-card {
+  width: 150px;
+  text-align: center;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.summary-value {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.summary-label {
+  font-size: 1rem;
+  color: gray;
+}

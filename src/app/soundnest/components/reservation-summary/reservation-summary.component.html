@@ -1,1 +1,11 @@
-<p>reservation-summary works!</p>
+<div class="summary-container">
+  <mat-card class="summary-card" (click)="onCardClick('today')">
+    <div class="summary-value">{{ hoyCount }}</div>
+    <div class="summary-label">INICIAN HOY</div>
+  </mat-card>
+
+  <mat-card class="summary-card" (click)="onCardClick('future')">
+    <div class="summary-value">{{ proximasCount }}</div>
+    <div class="summary-label">PRÓXIMAS</div>
+  </mat-card>
+</div>
